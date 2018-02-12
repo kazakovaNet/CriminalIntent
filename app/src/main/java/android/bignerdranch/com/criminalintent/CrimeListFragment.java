@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -39,19 +40,38 @@ public class CrimeListFragment extends Fragment {
 
 
     private class CrimeHolder extends RecyclerView.ViewHolder {
+        private TextView titleTextView;
+        private TextView dateTextView;
+        private Crime crime;
 
-        public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
+        CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_crime, parent, false));
+
+            // Извлечение представлений
+            titleTextView = itemView.findViewById(R.id.crime_title);
+            dateTextView = itemView.findViewById(R.id.crime_date);
+        }
+
+        /*
+        Метод вызывается каждый раз, когда в CrimeHolder должен отображаться новый объект Crime
+         */
+        private void bind(Crime crime) {
+            this.crime = crime;
+            titleTextView.setText(crime.getTitle());
+            dateTextView.setText(crime.getDate().toString());
         }
     }
 
-    private class CrimeAdapter extends RecyclerView.Adapter {
+    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
         private List<Crime> crimes;
 
-        public CrimeAdapter(List<Crime> crimes) {
+        CrimeAdapter(List<Crime> crimes) {
             this.crimes = crimes;
         }
 
+        // Этот метод вызывается на втором шаге диалога RecyclerView-Adapter
+        // для создания нового объекта ViewHolder
+        // вместе с его «полезной нагрузкой»: отображаемым представлением
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
@@ -59,11 +79,18 @@ public class CrimeListFragment extends Fragment {
             return new CrimeHolder(layoutInflater, parent);
         }
 
+        // Этот метод вызывается на третьем шаге диалога RecyclerView-Adapter.
+        // Адаптер получает данные модели для указанной позиции (position)
+        // и связывает их с представлением View объекта ViewHolder (holder).
+        // Чтобы выполнить связывание, адаптер заполняет View
+        // в соответствии с данными из объекта модели
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        public void onBindViewHolder(CrimeHolder holder, int position) {
+            Crime crime=crimes.get(position);
+            holder.bind(crime);
         }
 
+        // Этот метод вызывается на первом шаге диалога RecyclerView-Adapter
         @Override
         public int getItemCount() {
             return crimes.size();
