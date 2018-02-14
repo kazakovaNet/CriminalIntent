@@ -8,8 +8,9 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    private int requiresPolice;
 
-    public Crime() {
+    Crime() {
         mId = UUID.randomUUID();
         mDate = new Date(); // текущая дата
     }
@@ -26,7 +27,7 @@ public class Crime {
         mTitle = title;
     }
 
-    public Date getDate() {
+    Date getDate() {
         return mDate;
     }
 
@@ -34,11 +35,11 @@ public class Crime {
         mDate = date;
     }
 
-    public boolean isSolved() {
+    boolean isSolved() {
         return mSolved;
     }
 
-    public void setSolved(boolean solved) {
+    void setSolved(boolean solved) {
         mSolved = solved;
     }
 }

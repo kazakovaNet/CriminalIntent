@@ -1,24 +1,29 @@
 package android.bignerdranch.com.criminalintent;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class CrimeListFragment extends Fragment {
     private RecyclerView crimeRecyclerView;
     private CrimeAdapter adapter;
+    private ImageView solvedImageView;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
 
         crimeRecyclerView = view.findViewById(R.id.crime_recycler_view);
@@ -39,7 +44,7 @@ public class CrimeListFragment extends Fragment {
     }
 
 
-    private class CrimeHolder extends RecyclerView.ViewHolder {
+    private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView titleTextView;
         private TextView dateTextView;
         private Crime crime;
@@ -47,9 +52,14 @@ public class CrimeListFragment extends Fragment {
         CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_crime, parent, false));
 
+            // Для itemView — представления View всей строки —
+            // CrimeHolder назначается получателем событий щелчка
+            itemView.setOnClickListener(this);
+
             // Извлечение представлений
             titleTextView = itemView.findViewById(R.id.crime_title);
             dateTextView = itemView.findViewById(R.id.crime_date);
+            solvedImageView = itemView.findViewById(R.id.crime_solved);
         }
 
         /*
@@ -58,7 +68,14 @@ public class CrimeListFragment extends Fragment {
         private void bind(Crime crime) {
             this.crime = crime;
             titleTextView.setText(crime.getTitle());
-            dateTextView.setText(crime.getDate().toString());
+            solvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
+
+            dateTextView.setText(DateFormat.format("EEEE, MMM dd, yyyy", crime.getDate()));
+        }
+
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(getActivity(), crime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -86,7 +103,7 @@ public class CrimeListFragment extends Fragment {
         // в соответствии с данными из объекта модели
         @Override
         public void onBindViewHolder(CrimeHolder holder, int position) {
-            Crime crime=crimes.get(position);
+            Crime crime = crimes.get(position);
             holder.bind(crime);
         }
 
