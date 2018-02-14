@@ -31,7 +31,7 @@ public class CrimeFragment extends Fragment {
         // В простом решении CrimeFragment использует метод getActivity()
         // для прямого обращения к интенту CrimeActivity
         UUID crimeId = (UUID) getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
-        crime = CrimeLab.getCrime(crimeId);
+        crime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
     @Nullable
