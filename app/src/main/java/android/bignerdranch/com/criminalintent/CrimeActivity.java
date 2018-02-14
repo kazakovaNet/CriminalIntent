@@ -7,11 +7,16 @@ import android.support.v4.app.Fragment;
 import java.util.UUID;
 
 public class CrimeActivity extends SingleFragmentActivity {
-    public static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.crime_id";
+    private static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.crime_id";
 
     @Override
     protected Fragment createFragment() {
-        return new CrimeFragment();
+        // Класс CrimeActivity должен вызывать CrimeFragment.newInstance(UUID) каждый раз,
+        // когда ему потребуется создать CrimeFragment.
+        // При вызове передается значение UUID, полученное из дополнения
+        UUID crimeId = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+
+        return CrimeFragment.newInstance(crimeId);
     }
 
     public static Intent newIntent(Context packageContext, UUID crimeId) {

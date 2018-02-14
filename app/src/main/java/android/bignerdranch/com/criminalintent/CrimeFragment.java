@@ -24,13 +24,34 @@ public class CrimeFragment extends Fragment {
     private Button dateButton;
     private CheckBox solvedCheckBox;
 
+    private static final String ARG_CRIME_ID = "crime_id";
+
+    // Метод получает UUID, создает пакет аргументов,
+    // создает экземпляр фрагмента, а затем присоединяет аргументы к фрагменту
+    public static CrimeFragment newInstance(UUID crimeId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_CRIME_ID, crimeId);
+
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // В простом решении CrimeFragment использует метод getActivity()
         // для прямого обращения к интенту CrimeActivity
-        UUID crimeId = (UUID) getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+//        UUID crimeId = (UUID) getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+
+        // Получение идентификатора преступления из аргументов (гибкое решение)
+        Bundle bundle = getArguments();
+        UUID crimeId = null;
+        if (bundle != null) {
+            crimeId = (UUID) bundle.getSerializable(ARG_CRIME_ID);
+        }
         crime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 

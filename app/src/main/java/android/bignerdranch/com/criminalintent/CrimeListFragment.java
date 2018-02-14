@@ -34,13 +34,24 @@ public class CrimeListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updateUI();
+    }
+
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
 
-        adapter = new CrimeAdapter(crimes);
-        crimeRecyclerView.setAdapter(adapter);
-
+        if (adapter == null) {
+            adapter = new CrimeAdapter(crimes);
+            crimeRecyclerView.setAdapter(adapter);
+        } else {
+            // Перезагрузка списка
+            adapter.notifyDataSetChanged();
+        }
     }
 
 
