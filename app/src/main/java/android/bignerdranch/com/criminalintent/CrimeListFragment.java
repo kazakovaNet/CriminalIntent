@@ -1,5 +1,6 @@
 package android.bignerdranch.com.criminalintent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -75,7 +76,12 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(), crime.getTitle() + " clicked!", Toast.LENGTH_SHORT).show();
+            // Когда пользователь щелкает на элементе списка преступлений,
+            // на экране возникает новый экземпляр CrimeActivity,
+            // который является хостом для экземпляра CrimeFragment
+            // с подробной информацией о конкретном экземпляре Crime
+            Intent intent = CrimeActivity.newIntent(getActivity(), crime.getId());
+            startActivity(intent);
         }
     }
 

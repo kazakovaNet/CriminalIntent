@@ -1,6 +1,7 @@
 package android.bignerdranch.com.criminalintent;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -13,24 +14,29 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.util.UUID;
+
 import static android.widget.CompoundButton.*;
 
 public class CrimeFragment extends Fragment {
-    private Crime mCrime;
-    private EditText mTitleField;
-    private Button mDateButton;
-    private CheckBox mSolvedCheckBox;
+    private Crime crime;
+    private EditText titleField;
+    private Button dateButton;
+    private CheckBox solvedCheckBox;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mCrime = new Crime();
+        // В простом решении CrimeFragment использует метод getActivity()
+        // для прямого обращения к интенту CrimeActivity
+        UUID crimeId = (UUID) getActivity().getIntent().getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID);
+        crime = CrimeLab.getCrime(crimeId);
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Заполнение представления фрагмента:
         // 1-й параметр: идентификатор ресурса макета
@@ -38,8 +44,9 @@ public class CrimeFragment extends Fragment {
         // 3-й параметр: нужно ли включать заполненное представление в родителя
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
-        mTitleField = v.findViewById(R.id.crime_title);
-        mTitleField.addTextChangedListener(new TextWatcher() {
+        titleField = v.findViewById(R.id.crime_title);
+        titleField.setText(crime.getTitle());
+        titleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // Здесь намеренно оставлено пустое место
@@ -47,7 +54,7 @@ public class CrimeFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mCrime.setTitle(s.toString());
+                crime.setTitle(s.toString());
             }
 
             @Override
@@ -56,16 +63,17 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mDateButton = v.findViewById(R.id.crime_date);
-        mDateButton.setText(mCrime.getDate().toString());
+        dateButton = v.findViewById(R.id.crime_date);
+        dateButton.setText(crime.getDate().toString());
         // TODO Кнопка заблокирована
-        mDateButton.setEnabled(false);
+        dateButton.setEnabled(false);
 
-        mSolvedCheckBox = v.findViewById(R.id.crime_solved);
-        mSolvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        solvedCheckBox = v.findViewById(R.id.crime_solved);
+        solvedCheckBox.setChecked(crime.isSolved());
+        solvedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mCrime.setSolved(isChecked);
+                crime.setSolved(isChecked);
             }
         });
 

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class CrimeLab {
+class CrimeLab {
     private static CrimeLab crimeLab;
-    private List<Crime> crimes;
+    private static List<Crime> crimes;
 
     private CrimeLab(Context context) {
         crimes = new ArrayList<>();
@@ -24,18 +24,18 @@ public class CrimeLab {
         }
     }
 
-    public static CrimeLab getCrimeLab(Context context) {
+    static CrimeLab getCrimeLab(Context context) {
         if (crimeLab == null) {
             crimeLab = new CrimeLab(context);
         }
         return crimeLab;
     }
 
-    public List<Crime> getCrimes() {
+    List<Crime> getCrimes() {
         return crimes;
     }
 
-    public Crime getCrime(UUID id) {
+    static Crime getCrime(UUID id) {
         for (Crime crime : crimes) {
             if (crime.getId() == id) {
                 return crime;
