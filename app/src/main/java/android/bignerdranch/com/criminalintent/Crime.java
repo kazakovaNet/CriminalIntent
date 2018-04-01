@@ -7,12 +7,16 @@ public class Crime {
     private UUID mId;
     private String mTitle;
     private Date mDate;
-    private boolean mSolved;
+    private boolean mSolved = false;
     private int requiresPolice;
 
     Crime() {
-        mId = UUID.randomUUID();
-        mDate = new Date(); // текущая дата
+        this(UUID.randomUUID());
+    }
+
+    public Crime(UUID id) {
+        mId = id;
+        mDate = new Date();
     }
 
     public UUID getId() {
@@ -39,7 +43,7 @@ public class Crime {
         return mSolved;
     }
 
-    void setSolved(boolean solved) {
+    public void setSolved(boolean solved) {
         mSolved = solved;
     }
 }

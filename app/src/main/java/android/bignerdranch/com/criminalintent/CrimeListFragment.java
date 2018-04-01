@@ -19,7 +19,6 @@ import java.util.List;
 public class CrimeListFragment extends Fragment {
     private RecyclerView crimeRecyclerView;
     private CrimeAdapter adapter;
-    private ImageView solvedImageView;
 
     @Nullable
     @Override
@@ -43,6 +42,11 @@ public class CrimeListFragment extends Fragment {
 
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
+
+        crimeLab.addCrime(new Crime());
+        crimeLab.addCrime(new Crime());
+        crimeLab.addCrime(new Crime());
+
         List<Crime> crimes = crimeLab.getCrimes();
 
         if (adapter == null) {
@@ -59,6 +63,7 @@ public class CrimeListFragment extends Fragment {
         private TextView titleTextView;
         private TextView dateTextView;
         private Crime crime;
+        private ImageView solvedImageView;
 
         CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_crime, parent, false));
@@ -76,9 +81,9 @@ public class CrimeListFragment extends Fragment {
         /*
         Метод вызывается каждый раз, когда в CrimeHolder должен отображаться новый объект Crime
          */
-        private void bind(Crime crime) {
-            this.crime = crime;
-            titleTextView.setText(crime.getTitle());
+        private void bind(Crime bindCrime) {
+            crime = bindCrime;
+            titleTextView.setText(bindCrime.getTitle());
             solvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
 
             dateTextView.setText(DateFormat.format("EEEE, MMM dd, yyyy", crime.getDate()));
@@ -87,10 +92,10 @@ public class CrimeListFragment extends Fragment {
         @Override
         public void onClick(View view) {
             // Когда пользователь щелкает на элементе списка преступлений,
-            // на экране возникает новый экземпляр CrimeActivity,
+            // на экране возникает новый экземпляр CrimePagerActivity,
             // который является хостом для экземпляра CrimeFragment
             // с подробной информацией о конкретном экземпляре Crime
-            Intent intent = CrimeActivity.newIntent(getActivity(), crime.getId());
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), crime.getId());
             startActivity(intent);
         }
     }

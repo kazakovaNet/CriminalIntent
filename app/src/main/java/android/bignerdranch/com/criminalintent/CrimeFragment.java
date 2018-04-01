@@ -100,4 +100,12 @@ public class CrimeFragment extends Fragment {
 
         return v;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Сохранение в базу изменяемых объектов Crime
+        CrimeLab.get(getActivity()).updateCrime(crime);
+    }
 }
