@@ -2,10 +2,12 @@ package android.bignerdranch.com.criminalintent;
 
 import android.support.v4.app.Fragment;
 
-public class CrimeActivity extends SingleFragmentActivity {
-
+/**
+ * Created by Kazakova_net on 27.01.2019.
+ */
+public class CrimeListActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createFragment() {
-        return new Fragment();
+        return new CrimeListFragment();
     }
 }
