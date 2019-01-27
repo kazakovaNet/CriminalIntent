@@ -1,5 +1,6 @@
 package android.bignerdranch.com.criminalintent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,10 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Kazakova_net on 27.01.2019.
@@ -45,6 +48,7 @@ public class CrimeListFragment extends Fragment {
 
         private TextView titleTextView;
         private TextView dateTextView;
+        private ImageView solvedImageView;
 
         public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_crime, parent, false));
@@ -52,19 +56,21 @@ public class CrimeListFragment extends Fragment {
 
             titleTextView = itemView.findViewById(R.id.crime_title);
             dateTextView = itemView.findViewById(R.id.crime_date);
+            solvedImageView = itemView.findViewById(R.id.crime_solved);
         }
 
         public void bind(Crime crime) {
             this.crime = crime;
             titleTextView.setText(crime.getTitle());
-            dateTextView.setText(crime.getDate().toString());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+            dateTextView.setText(dateFormat.format(crime.getDate()));
+            solvedImageView.setVisibility(crime.isSolved() ? View.VISIBLE : View.GONE);
         }
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(getActivity(),
-                    crime.getTitle() + " clicked!", Toast.LENGTH_SHORT)
-                    .show();
+            Intent intent = CrimeActivity.newIntent(getActivity(), crime.getId());
+            startActivity(intent);
         }
     }
 
@@ -95,4 +101,4 @@ public class CrimeListFragment extends Fragment {
         }
     }
 }
-// 198
+// 223
