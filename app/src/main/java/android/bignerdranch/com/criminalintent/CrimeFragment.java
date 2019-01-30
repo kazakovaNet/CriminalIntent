@@ -88,10 +88,13 @@ public class CrimeFragment extends Fragment {
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(crime.getDate());
-                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
-                dialog.show(manager, DIALOG_DATE);
+//                FragmentManager manager = getFragmentManager();
+//                DatePickerFragment dialog = DatePickerFragment.newInstance(crime.getDate());
+//                dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
+//                dialog.show(manager, DIALOG_DATE);
+
+                Intent intent = DatePickerActivity.newIntent(getActivity(), crime.getDate());
+                startActivityForResult(intent, REQUEST_DATE);
             }
         });
 
