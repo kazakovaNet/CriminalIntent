@@ -2,10 +2,9 @@ package android.bignerdranch.com.criminalintent;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by Kazakova_net on 30.01.2019.

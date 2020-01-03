@@ -2,10 +2,10 @@ package android.bignerdranch.com.criminalintent;
 
 
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.LayoutRes;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by Kazakova_net on 27.01.2019.
@@ -20,7 +20,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fragment);
 
         FragmentManager fm = getSupportFragmentManager();
-        android.support.v4.app.Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
         if (fragment == null) {
             fragment = createFragment();

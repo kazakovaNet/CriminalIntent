@@ -1,6 +1,6 @@
 package android.bignerdranch.com.criminalintent;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by Kazakova_net on 27.01.2019.
